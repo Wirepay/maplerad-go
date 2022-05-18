@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"maplerad/utils"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -29,11 +30,16 @@ type service struct {
 type Client struct {
 	common  service
 	c       *http.Client
-	baseURL string
-	secret  string
+	baseURL *url.URL
 
-	Bills *BillsService
-	// Misc *MiscService
+	secret string
+
+	Customer *CustomerService
+	Bills    *BillsService
+	Account  *AccountService
+	Transfer *TransferService
+	Issuing  *IssuingService
+	Misc     *MiscService
 }
 
 // func WithHTTPClient(cl *http.Client) Option {
@@ -70,14 +76,17 @@ func NewClient(secret, environment string) (*Client, error) {
 	}
 	c.secret = secret
 	if environment == "sandbox" {
-		c.baseURL = "api.sandbox.maplerad.io"
+		c.baseURL, _ = url.Parse("https://api.sandbox.maplerad.io")
 	}
-	c.baseURL = "api.maplerad.io"
-
+	c.baseURL, _ = url.Parse("https://api.maplerad.io")
 	c.common.client = c
-	c.Bills = (*BillsService)(&c.common)
 
-	// c.Misc = (*MiscService)(&c.common)
+	c.Customer = (*CustomerService)(&c.common)
+	c.Bills = (*BillsService)(&c.common)
+	c.Account = (*AccountService)(&c.common)
+	c.Transfer = (*TransferService)(&c.common)
+	c.Issuing = (*IssuingService)(&c.common)
+	c.Misc = (*MiscService)(&c.common)
 
 	if c.c == nil {
 		c.c = &http.Client{
@@ -92,9 +101,9 @@ func NewClient(secret, environment string) (*Client, error) {
 }
 
 // // Call actually does the HTTP request to Maplerad API
-func (c *Client) Call(method, path string, query string, body, v interface{}) error {
+func (c *Client) Call(method, path string, queryParams url.Values, body, v interface{}) error {
 	var buf io.ReadWriter
-	var u string
+
 	if body != nil {
 		buf = new(bytes.Buffer)
 		err := json.NewEncoder(buf).Encode(body)
@@ -102,14 +111,24 @@ func (c *Client) Call(method, path string, query string, body, v interface{}) er
 			return err
 		}
 	}
-	if len(query) > 1 {
-		u = c.baseURL + path + "?" + query
-	} else {
-		u = c.baseURL + path
-
+	u, err := c.baseURL.Parse(path)
+	if err != nil {
+		return err
 	}
 
-	req, err := http.NewRequest(method, u, buf)
+	// Adding Query Param
+	query := u.Query()
+	for k, v := range queryParams {
+		for _, iv := range v {
+			query.Add(k, iv)
+		}
+	}
+
+	/* TODO*/
+	// Encode the parameters.
+	// u.RawQuery() = query.Encode()
+
+	req, err := http.NewRequest(method, u.String(), buf)
 
 	if err != nil {
 		return err
