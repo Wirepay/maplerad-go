@@ -76,9 +76,9 @@ func NewClient(secret, environment string) (*Client, error) {
 	}
 	c.secret = secret
 	if environment == "sandbox" {
-		c.baseURL, _ = url.Parse("https://api.sandbox.maplerad.io")
+		c.baseURL, _ = url.Parse("https://api.sandbox.maplerad.io/v1")
 	}
-	c.baseURL, _ = url.Parse("https://api.maplerad.io")
+	c.baseURL, _ = url.Parse("https://api.maplerad.io/v1")
 	c.common.client = c
 
 	c.Customer = (*CustomerService)(&c.common)
