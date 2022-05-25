@@ -35,9 +35,45 @@ func (c *IssuingService) CreateCard(body *CreateCardRequest) (*models.CreateCard
 	return resp, err
 }
 
-// func (c *IssuingService) GetCardTransactions(customer_id string) (*models.GetCardResponse, error) {
-// 	u := fmt.Sprintf("/issuing/%s", customer_id)
-// 	resp := &models.GetCardResponse{}
-// 	err := c.client.Call("GET", u, nil, nil, &resp)
-// 	return resp, err
-// }
+func (c *IssuingService) GetCardTransactions(customer_id string) (*models.GetCardTransactionsResponse, error) {
+	u := fmt.Sprintf("/issuing/%s", customer_id)
+	resp := &models.GetCardTransactionsResponse{}
+	err := c.client.Call("GET", u, nil, nil, &resp)
+	return resp, err
+}
+
+type CardRequest struct {
+	amount string
+}
+
+func (c *IssuingService) FundCard(card_id, amount string) (*models.Generic, error) {
+	u := fmt.Sprintf("/issuing/%s/fund", card_id)
+	var body *CardRequest
+	body.amount = amount
+	resp := &models.Generic{}
+	err := c.client.Call("POST", u, nil, body, &resp)
+	return resp, err
+}
+
+func (c *IssuingService) DebitCard(card_id, amount string) (*models.Generic, error) {
+	u := fmt.Sprintf("/issuing/%s/debit", card_id)
+	var body *CardRequest
+	body.amount = amount
+	resp := &models.Generic{}
+	err := c.client.Call("POST", u, nil, body, &resp)
+	return resp, err
+}
+
+func (c *IssuingService) EnableCard(card_id string) (*models.Generic, error) {
+	u := fmt.Sprintf("/issuing/%s/enable", card_id)
+	resp := &models.Generic{}
+	err := c.client.Call("PATCH", u, nil, nil, &resp)
+	return resp, err
+}
+
+func (c *IssuingService) DisableCard(card_id string) (*models.Generic, error) {
+	u := fmt.Sprintf("/issuing/%s/disable", card_id)
+	resp := &models.Generic{}
+	err := c.client.Call("PATCH", u, nil, nil, &resp)
+	return resp, err
+}

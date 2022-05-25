@@ -15,6 +15,10 @@ type GetCardResponse struct {
 	} `json:"data"`
 }
 
+type  GetCardTransactionsResponse struct{
+
+}
+
 type GetAllCardsResponse []struct {
 	Generic
 	Data struct {
