@@ -22,7 +22,7 @@ type BankTransferRequest struct {
 	currency       string
 }
 
-func (c *TransferService) NigerianBankTransfer(bank_code, account_number, amount string) (*models.Generic, error) {
+func (c *TransferService) NigerianBankTransfer(bank_code, account_number, amount string) (*models.NigerianBankTransferResponse, error) {
 	u := fmt.Sprintf("/transfers")
 	var body *BankTransferRequest
 	body.amount = amount
