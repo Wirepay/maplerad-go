@@ -31,7 +31,7 @@ type CreateCardRequest struct {
 func (c *IssuingService) CreateCard(body *CreateCardRequest) (*models.CreateCardResponse, error) {
 	u := "/issuing"
 	resp := &models.CreateCardResponse{}
-	err := c.client.Call("POST", u, nil, nil, &resp)
+	err := c.client.Call("POST", u, nil, body, &resp)
 	return resp, err
 }
 

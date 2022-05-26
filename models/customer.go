@@ -3,9 +3,9 @@ package models
 type CreateCustomerResponse struct {
 	Generic
 	Data struct {
-		Id     string
-		Status string
-	}
+		Id     string `json:"id"`
+		Status string `json:"status"`
+	} `json:"data"`
 }
 
 type GetCustomerResponse struct {
@@ -34,7 +34,7 @@ type GetCustomerResponse struct {
 		State       string `json:"state"`
 		Country     string `json:"country"`
 		Postal_code string `json:"postal_code"`
-	}
+	} `json:"address"`
 }
 
 type GetCustomersResponse struct {
@@ -55,7 +55,7 @@ type GetCustomersResponse struct {
 			Image   string `json:"image"`
 			Country string `json:"country"`
 		} `json:"identity"`
-	}
+	} `json:"data"`
 	Address struct {
 		Street      string `json:"street"`
 		Street2     string `json:"street2"`
@@ -63,5 +63,17 @@ type GetCustomersResponse struct {
 		State       string `json:"state"`
 		Country     string `json:"country"`
 		Postal_code string `json:"postal_code"`
-	}
+	} `json:"address"`
+}
+
+type GetCustomersAccountResponse struct {
+	Generic
+	Data []struct {
+		Id             string `json:"id"`
+		Bank_name      string `json:"bank_name"`
+		Account_number string `json:"account_number"`
+		Account_name   string `json:"account_name"`
+		Currency       string `json:"currency"`
+		Created_at     string `json:"created_at"`
+	} `json:"data"`
 }
