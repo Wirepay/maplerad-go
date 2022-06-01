@@ -51,7 +51,7 @@ func (c *CustomerService) GetCustomers() (*models.GetCustomersResponse, error) {
 	return resp, err
 }
 
-func (c *CustomerService) GetCustomersAccount(customer_id string) (*models.GetCustomersAccountResponse, error) {
+func (c *CustomerService) GetCustomerAccount(customer_id string) (*models.GetCustomersAccountResponse, error) {
 	u := fmt.Sprintf("/customers/%s/account", customer_id)
 	resp := &models.GetCustomersAccountResponse{}
 	err := c.client.Call("POST", u, nil, nil, &resp)
