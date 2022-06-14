@@ -166,7 +166,7 @@ func mapstruct(data interface{}, v interface{}) error {
 // Response represents arbitrary response data
 type Response map[string]interface{}
 
-// // decodeResponse decodes the JSON response from the Mono API.
+// // decodeResponse decodes the JSON response from the Maplerad API.
 // // The actual response will be written to the `v` parameter
 func (c *Client) decodeResponse(httpResp *http.Response, v interface{}) error {
 	var resp Response
