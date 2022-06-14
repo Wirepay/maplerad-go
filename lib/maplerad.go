@@ -18,8 +18,8 @@ import (
 )
 
 const (
-	SANDBOX_URL = "https://api.sandbox.maplerad.com"
-	LIVE_URL    = "https://api.maplerad.com"
+	SANDBOX_URL = "https://api.sandbox.maplerad.com/v1"
+	LIVE_URL    = "https://api.maplerad.com/v1"
 )
 
 type service struct {
@@ -75,10 +75,10 @@ func NewClient(secret, environment string) (*Client, error) {
 		return nil, errors.New("please provide your secret key")
 	}
 	c.secret = secret
-	if environment == "sandbox" {
-		c.baseURL, _ = url.Parse("https://api.sandbox.maplerad.io/v1")
+	if environment == "live" {
+		c.baseURL, _ = url.Parse(LIVE_URL)
 	}
-	c.baseURL, _ = url.Parse("https://api.maplerad.io/v1")
+	c.baseURL, _ = url.Parse(SANDBOX_URL)
 	c.common.client = c
 
 	c.Customer = (*CustomerService)(&c.common)
