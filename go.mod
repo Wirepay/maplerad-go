@@ -1,4 +1,4 @@
-module gihtub.com/wirepay/maplerad-go
+module github.com/wirepay/maplerad-go
 
 go 1.18
 

@@ -2,7 +2,7 @@
 
 ### To install, run in terminal
 ```shell
-    $ go get -u https://github.com/wirepay/maplerad-go
+    $ go get -u github.com/wirepay/maplerad-go
 ```
 
 #
@@ -10,14 +10,12 @@
     package main
     
     import (
-    maplerad "github.com/wirepay/maplerad-go"
-	"os"
+        maplerad "github.com/wirepay/maplerad-go"
+		"os"
     )
     
     func main(){
 		client := maplerad.NewClient(os.Getenv("SECRET_KEY"), "sandbox")
-		
-		
     }
     
 
