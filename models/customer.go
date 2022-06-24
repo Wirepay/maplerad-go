@@ -66,14 +66,20 @@ type GetCustomersResponse struct {
 	} `json:"address"`
 }
 
-type GetCustomersAccountResponse struct {
+type GetCustomerAccountResponse struct {
 	Generic
 	Data []struct {
-		Id             string `json:"id"`
-		Bank_name      string `json:"bank_name"`
-		Account_number string `json:"account_number"`
-		Account_name   string `json:"account_name"`
-		Currency       string `json:"currency"`
-		Created_at     string `json:"created_at"`
+		Id            string `json:"id"`
+		BankName      string `json:"bank_name"`
+		AccountNumber string `json:"account_number"`
+		AccountName   string `json:"account_name"`
+		Currency      string `json:"currency"`
+		CreatedAt     string `json:"created_at"`
 	} `json:"data"`
+}
+
+type GetCustomerCardsResponse struct {
+}
+
+type GetCustomerTransactionsResponse struct {
 }

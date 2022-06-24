@@ -4,21 +4,20 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"gihtub.com/wirepay/maplerad-go/utils"
 	"io"
 	"io/ioutil"
-	"maplerad/utils"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
 
-	
 	"github.com/mitchellh/mapstructure"
 )
 
 const (
-	SANDBOX_URL = "https://api.sandbox.maplerad.com/v1"
-	LIVE_URL    = "https://api.maplerad.com/v1"
+	SandboxUrl = "https://api.sandbox.maplerad.com/v1"
+	LiveUrl    = "https://api.maplerad.com/v1"
 )
 
 type service struct {
@@ -35,7 +34,7 @@ type Client struct {
 
 	Customer *CustomerService
 	Bills    *BillsService
-	Account  *AccountService
+	Account  *CollectionsService
 	Transfer *TransferService
 	Issuing  *IssuingService
 	Misc     *MiscService
@@ -75,14 +74,14 @@ func NewClient(secret, environment string) (*Client, error) {
 	}
 	c.secret = secret
 	if environment == "live" {
-		c.baseURL, _ = url.Parse(LIVE_URL)
+		c.baseURL, _ = url.Parse(LiveUrl)
 	}
-	c.baseURL, _ = url.Parse(SANDBOX_URL)
+	c.baseURL, _ = url.Parse(SandboxUrl)
 	c.common.client = c
 
 	c.Customer = (*CustomerService)(&c.common)
 	c.Bills = (*BillsService)(&c.common)
-	c.Account = (*AccountService)(&c.common)
+	c.Account = (*CollectionsService)(&c.common)
 	c.Transfer = (*TransferService)(&c.common)
 	c.Issuing = (*IssuingService)(&c.common)
 	c.Misc = (*MiscService)(&c.common)
@@ -142,7 +141,12 @@ func (c *Client) Call(method, path string, queryParams url.Values, body, v inter
 		return err
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
 	return c.decodeResponse(resp, v)
 }
 
@@ -170,7 +174,10 @@ type Response map[string]interface{}
 func (c *Client) decodeResponse(httpResp *http.Response, v interface{}) error {
 	var resp Response
 	respBody, err := ioutil.ReadAll(httpResp.Body)
-	json.Unmarshal(respBody, &resp)
+	err = json.Unmarshal(respBody, &resp)
+	if err != nil {
+		return err
+	}
 	if err != nil {
 		return err
 	}

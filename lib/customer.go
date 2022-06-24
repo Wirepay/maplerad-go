@@ -3,30 +3,30 @@ package maplerad
 import (
 	"fmt"
 
-	"maplerad/models"
+	"gihtub.com/wirepay/maplerad-go/models"
 )
 
 type CustomerService service
 
 type CreateCustomerRequest struct {
-	First_name   string
-	Last_name    string
-	Email        string
-	Phone_number string
-	Dob          string
-	Identity     struct {
+	FirstName   string
+	LastName    string
+	Email       string
+	PhoneNumber string
+	Dob         string
+	Identity    struct {
 		Type    string
 		Number  string
 		Url     string
 		Country string
 	}
 	Address struct {
-		Street      string
-		Street2     string
-		City        string
-		State       string
-		Country     string
-		Postal_code string
+		Street     string
+		Street2    string
+		City       string
+		State      string
+		Country    string
+		PostalCode string
 	}
 }
 
@@ -37,8 +37,8 @@ func (c *CustomerService) CreateCustomer(body *CreateCustomerRequest) (*models.C
 	return resp, err
 }
 
-func (c *CustomerService) GetCustomer(customer_id string) (*models.GetCustomerResponse, error) {
-	u := fmt.Sprintf("/customers/%s", customer_id)
+func (c *CustomerService) GetCustomer(customerId string) (*models.GetCustomerResponse, error) {
+	u := fmt.Sprintf("/customers/%s", customerId)
 	resp := &models.GetCustomerResponse{}
 	err := c.client.Call("GET", u, nil, nil, &resp)
 	return resp, err
@@ -51,9 +51,23 @@ func (c *CustomerService) GetCustomers() (*models.GetCustomersResponse, error) {
 	return resp, err
 }
 
-func (c *CustomerService) GetCustomerAccount(customer_id string) (*models.GetCustomersAccountResponse, error) {
-	u := fmt.Sprintf("/customers/%s/account", customer_id)
-	resp := &models.GetCustomersAccountResponse{}
+func (c *CustomerService) GetCustomerAccount(customerId string) (*models.GetCustomerAccountResponse, error) {
+	u := fmt.Sprintf("/customers/%s/account", customerId)
+	resp := &models.GetCustomerAccountResponse{}
+	err := c.client.Call("POST", u, nil, nil, &resp)
+	return resp, err
+}
+
+func (c *CustomerService) GetCustomerCards(customerId string) (*models.GetCustomerCardsResponse, error) {
+	u := fmt.Sprintf("/customers/%s/cards", customerId)
+	resp := &models.GetCustomerCardsResponse{}
+	err := c.client.Call("POST", u, nil, nil, &resp)
+	return resp, err
+}
+
+func (c *CustomerService) GetCustomerTransactions(customerId string) (*models.GetCustomerTransactionsResponse, error) {
+	u := fmt.Sprintf("/customers/%s/transactions", customerId)
+	resp := &models.GetCustomerTransactionsResponse{}
 	err := c.client.Call("POST", u, nil, nil, &resp)
 	return resp, err
 }

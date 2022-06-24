@@ -1,5 +1,5 @@
-module maplerad
+module gihtub.com/wirepay/maplerad-go
 
-go 1.16
+go 1.18
 
-require github.com/mitchellh/mapstructure v1.5.0 // indirect
+require github.com/mitchellh/mapstructure v1.5.0
