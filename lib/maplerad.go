@@ -12,8 +12,7 @@ import (
 	"strings"
 	"time"
 
-	// 	"github.com/khrees2412/mono-sdk/models"
-	// 	"github.com/khrees2412/mono-sdk/utils"
+	
 	"github.com/mitchellh/mapstructure"
 )
 
@@ -26,7 +25,7 @@ type service struct {
 	client *Client
 }
 
-// Client manages communication with the Mono API
+// Client manages communication with the Maplerad API
 type Client struct {
 	common  service
 	c       *http.Client
