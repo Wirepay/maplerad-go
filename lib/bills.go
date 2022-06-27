@@ -1,7 +1,7 @@
 package maplerad
 
 import (
-	"maplerad/models"
+	"github.com/wirepay/maplerad-go/models"
 )
 
 type BillsService service

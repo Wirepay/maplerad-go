@@ -3,7 +3,7 @@ package maplerad
 import (
 	"fmt"
 
-	"gihtub.com/wirepay/maplerad-go/models"
+	"github.com/wirepay/maplerad-go/models"
 )
 
 type CustomerService service
@@ -44,7 +44,7 @@ func (c *CustomerService) GetCustomer(customerId string) (*models.GetCustomerRes
 	return resp, err
 }
 
-func (c *CustomerService) GetCustomers() (*models.GetCustomersResponse, error) {
+func (c *CustomerService) GetAllCustomers() (*models.GetCustomersResponse, error) {
 	u := "/customers"
 	resp := &models.GetCustomersResponse{}
 	err := c.client.Call("GET", u, nil, nil, &resp)

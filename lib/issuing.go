@@ -2,7 +2,7 @@ package maplerad
 
 import (
 	"fmt"
-	"maplerad/models"
+	"github.com/wirepay/maplerad-go/models"
 )
 
 type IssuingService service

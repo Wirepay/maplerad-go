@@ -1,22 +1,25 @@
 package maplerad
 
 import (
-	"maplerad/models"
+	"github.com/wirepay/maplerad-go/models"
 )
 
 type GetMarketQuoteRequest struct {
-	source_currency string
-	target_currency string
-	amount          int
+	sourceCurrency string
+	targetCurrency string
+	amount         int
 }
 
-func (c *MiscService) GetMarketQuote(source, target string, amount int) (*models.GetMarketQuoteResponse, error) {
-	u := "/fx"
-	var body *GetMarketQuoteRequest
-	body.source_currency = source
-	body.target_currency = target
-	body.amount = amount
+func (c *MiscService) GetMarketQuote(body *GetMarketQuoteRequest) (*models.GetMarketQuoteResponse, error) {
+	u := "/fx/quote"
 	resp := &models.GetMarketQuoteResponse{}
 	err := c.client.Call("POST", u, nil, body, &resp)
+	return resp, err
+}
+
+func (c *MiscService) ExchangeCurrency(quoteReference string) (Response, error) {
+	u := "/fx"
+	resp := Response{}
+	err := c.client.Call("POST", u, nil, quoteReference, &resp)
 	return resp, err
 }

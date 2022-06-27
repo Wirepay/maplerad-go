@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"gihtub.com/wirepay/maplerad-go/utils"
+	"github.com/wirepay/maplerad-go/utils"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	SandboxUrl = "https://api.sandbox.maplerad.com/v1"
+	SandboxUrl = "https://sandbox.api.maplerad.com/v1"
 	LiveUrl    = "https://api.maplerad.com/v1"
 )
 
@@ -32,12 +32,15 @@ type Client struct {
 
 	secret string
 
-	Customer *CustomerService
-	Bills    *BillsService
-	Account  *CollectionsService
-	Transfer *TransferService
-	Issuing  *IssuingService
-	Misc     *MiscService
+	Customer     *CustomerService
+	Bills        *BillsService
+	Account      *CollectionsService
+	Transfer     *TransferService
+	Issuing      *IssuingService
+	Misc         *MiscService
+	Settlement   *SettlementService
+	Wallet       *WalletService
+	Counterparty *CounterpartyService
 }
 
 // func WithHTTPClient(cl *http.Client) Option {
@@ -85,6 +88,9 @@ func NewClient(secret, environment string) (*Client, error) {
 	c.Transfer = (*TransferService)(&c.common)
 	c.Issuing = (*IssuingService)(&c.common)
 	c.Misc = (*MiscService)(&c.common)
+	c.Settlement = (*SettlementService)(&c.common)
+	c.Wallet = (*WalletService)(&c.common)
+	c.Counterparty = (*Counterparty)(&c.common)
 
 	if c.c == nil {
 		c.c = &http.Client{
@@ -194,6 +200,7 @@ func (c *Client) decodeResponse(httpResp *http.Response, v interface{}) error {
 			return mapstruct(resp, v)
 		}
 	}
+
 	// if response data does not contain data key, map entire response to v
 	return mapstruct(resp, v)
 }

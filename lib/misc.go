@@ -1,7 +1,7 @@
 package maplerad
 
 import (
-	"gihtub.com/wirepay/maplerad-go/models"
+	"github.com/wirepay/maplerad-go/models"
 )
 
 type MiscService service
