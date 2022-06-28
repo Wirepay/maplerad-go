@@ -1,17 +1,22 @@
 # The Maplerad Go client
 
+
+
 The library follows an object-oriented approach and methods are grouped under categories.
 
-There are currently eight (8) base categories namely:
+There are currently ten (10) base categories namely:
  * Customer
  * Collections
  * Transfer
  * Bills
+ * Wallets
  * Issuing
+ * Counterparty
  * Forex
  * Institutions
  * Misc
 
+ #### Learn more from the [docs](https://maplerad.dev/reference)
 
 ### Installation
 ```shell
