@@ -34,7 +34,7 @@ type Client struct {
 
 	Customer     *CustomerService
 	Bills        *BillsService
-	Account      *CollectionsService
+	Collections  *CollectionsService
 	Transfer     *TransferService
 	Issuing      *IssuingService
 	Misc         *MiscService
@@ -68,7 +68,7 @@ func (c *xAPIKeyAuthTransport) RoundTrip(r *http.Request) (*http.Response, error
 	return c.originalTransport.RoundTrip(r)
 }
 
-/* Environment is either live or sandbox */
+// NewClient /* Environment is either live or sandbox */
 func NewClient(secret, environment string) (*Client, error) {
 	c := &Client{}
 
@@ -84,13 +84,13 @@ func NewClient(secret, environment string) (*Client, error) {
 
 	c.Customer = (*CustomerService)(&c.common)
 	c.Bills = (*BillsService)(&c.common)
-	c.Account = (*CollectionsService)(&c.common)
+	c.Collections = (*CollectionsService)(&c.common)
 	c.Transfer = (*TransferService)(&c.common)
 	c.Issuing = (*IssuingService)(&c.common)
 	c.Misc = (*MiscService)(&c.common)
 	c.Settlement = (*SettlementService)(&c.common)
 	c.Wallet = (*WalletService)(&c.common)
-	c.Counterparty = (*Counterparty)(&c.common)
+	c.Counterparty = (*CounterpartyService)(&c.common)
 
 	if c.c == nil {
 		c.c = &http.Client{
@@ -104,7 +104,7 @@ func NewClient(secret, environment string) (*Client, error) {
 	return c, nil
 }
 
-// // Call actually does the HTTP request to Maplerad API
+// Call actually does the HTTP request to Maplerad API
 func (c *Client) Call(method, path string, queryParams url.Values, body, v interface{}) error {
 	var buf io.ReadWriter
 
