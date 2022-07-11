@@ -9,25 +9,25 @@ import (
 type CustomerService service
 
 type CreateCustomerRequest struct {
-	FirstName   string
-	LastName    string
-	Email       string
-	PhoneNumber string
-	Dob         string
+	FirstName   string `json:"first_name" binding:"required"`
+	LastName    string `json:"last_name" binding:"required"`
+	Email       string `json:"email" binding:"required"`
+	PhoneNumber string `json:"phone_number" binding:"required"`
+	Dob         string `json:"dob" binding:"required"`
 	Identity    struct {
-		Type    string
-		Number  string
-		Url     string
-		Country string
-	}
+		Type    string `json:"type" binding:"required"`
+		Number  string `json:"number"`
+		Url     string `json:"url" binding:"required"`
+		Country string `json:"country" binding:"required"`
+	} `json:"identity" binding:"required"`
 	Address struct {
-		Street     string
-		Street2    string
-		City       string
-		State      string
-		Country    string
-		PostalCode string
-	}
+		Street     string `json:"street" binding:"required"`
+		Street2    string `json:"street2"`
+		City       string `json:"city" binding:"required"`
+		State      string `json:"state" binding:"required"`
+		Country    string `json:"country" binding:"required"`
+		PostalCode string `json:"postalCode"`
+	} `json:"address" binding:"required"`
 }
 
 func (c *CustomerService) CreateCustomer(body *CreateCustomerRequest) (*models.CreateCustomerResponse, error) {

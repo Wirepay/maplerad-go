@@ -5,12 +5,12 @@ import (
 )
 
 type GetMarketQuoteRequest struct {
-	sourceCurrency string
-	targetCurrency string
-	amount         int
+	SourceCurrency string `json:"source_currency"`
+	TargetCurrency string `json:"target_currency"`
+	Amount         int    `json:"amount"`
 }
 
-func (c *MiscService) GetMarketQuote(body *GetMarketQuoteRequest) (*models.GetMarketQuoteResponse, error) {
+func (c *MiscService) GetMarketQuote(body GetMarketQuoteRequest) (*models.GetMarketQuoteResponse, error) {
 	u := "/fx/quote"
 	resp := &models.GetMarketQuoteResponse{}
 	err := c.client.Call("POST", u, nil, body, &resp)

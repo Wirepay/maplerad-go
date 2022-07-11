@@ -1,7 +1,7 @@
 package models
 
 type Generic struct {
-	Status  string `json:"status"`
+	Status  bool   `json:"status"`
 	Message string `json:"message"`
 }
 

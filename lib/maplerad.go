@@ -7,17 +7,16 @@ import (
 	"github.com/wirepay/maplerad-go/utils"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
-
-	"github.com/mitchellh/mapstructure"
 )
 
 const (
-	SandboxUrl = "https://sandbox.api.maplerad.com/v1"
-	LiveUrl    = "https://api.maplerad.com/v1"
+	SandboxUrl = "https://sandbox.api.maplerad.com"
+	LiveUrl    = "https://api.maplerad.com"
 )
 
 type service struct {
@@ -37,22 +36,11 @@ type Client struct {
 	Collections  *CollectionsService
 	Transfer     *TransferService
 	Issuing      *IssuingService
+	Transaction  *TransactionsService
 	Misc         *MiscService
 	Wallet       *WalletService
 	Counterparty *CounterpartyService
 }
-
-// func WithHTTPClient(cl *http.Client) Option {
-// 	return func(c *Client) {
-// 		c.c = cl
-// 	}
-// }
-
-// func WithSecretKey(s string) Option {
-// 	return func(c *Client) {
-// 		c.secret = s
-// 	}
-// }
 
 func IsStringEmpty(s string) bool { return len(strings.TrimSpace(s)) == 0 }
 
@@ -89,6 +77,7 @@ func NewClient(secret, environment string) (*Client, error) {
 	c.Misc = (*MiscService)(&c.common)
 	c.Wallet = (*WalletService)(&c.common)
 	c.Counterparty = (*CounterpartyService)(&c.common)
+	c.Transaction = (*TransactionsService)(&c.common)
 
 	if c.c == nil {
 		c.c = &http.Client{
@@ -113,7 +102,7 @@ func (c *Client) Call(method, path string, queryParams url.Values, body, v inter
 			return err
 		}
 	}
-	u, err := c.baseURL.Parse(path)
+	u, err := c.baseURL.Parse("v1" + path)
 	if err != nil {
 		return err
 	}
@@ -131,6 +120,7 @@ func (c *Client) Call(method, path string, queryParams url.Values, body, v inter
 	// u.RawQuery() = query.Encode()
 
 	req, err := http.NewRequest(method, u.String(), buf)
+	log.Print(method, ": ", req.URL)
 
 	if err != nil {
 		return err
@@ -139,35 +129,16 @@ func (c *Client) Call(method, path string, queryParams url.Values, body, v inter
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
 	}
-
 	resp, err := c.c.Do(req)
 	if err != nil {
 		return err
 	}
-
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-
 		}
 	}(resp.Body)
 	return c.decodeResponse(resp, v)
-}
-
-// u, _ := c.baseURL.Parse(r.path)
-
-func mapstruct(data interface{}, v interface{}) error {
-	config := &mapstructure.DecoderConfig{
-		Result:           v,
-		TagName:          "json",
-		WeaklyTypedInput: true,
-	}
-	decoder, err := mapstructure.NewDecoder(config)
-	if err != nil {
-		return err
-	}
-	err = decoder.Decode(data)
-	return err
 }
 
 // Response represents arbitrary response data
@@ -176,29 +147,14 @@ type Response map[string]interface{}
 // // decodeResponse decodes the JSON response from the Maplerad API.
 // // The actual response will be written to the `v` parameter
 func (c *Client) decodeResponse(httpResp *http.Response, v interface{}) error {
-	var resp Response
-	respBody, err := ioutil.ReadAll(httpResp.Body)
-	err = json.Unmarshal(respBody, &resp)
-	if err != nil {
-		return err
-	}
-	if err != nil {
-		return err
-	}
-	if status, _ := resp["status"].(bool); !status || httpResp.StatusCode >= 400 {
+	if httpResp.StatusCode >= 400 {
 		return utils.NewAPIError(httpResp)
 	}
-
-	if data, ok := resp["data"]; ok {
-		switch t := resp["data"].(type) {
-		case map[string]interface{}:
-			return mapstruct(data, v)
-		default:
-			_ = t
-			return mapstruct(resp, v)
-		}
+	respBody, err := ioutil.ReadAll(httpResp.Body)
+	err = json.Unmarshal(respBody, &v)
+	if err != nil {
+		return err
 	}
 
-	// if response data does not contain data key, map entire response to v
-	return mapstruct(resp, v)
+	return nil
 }
