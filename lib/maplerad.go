@@ -93,8 +93,9 @@ func NewClient(secret, environment string) (*Client, error) {
 
 // Call actually does the HTTP request to Maplerad API
 func (c *Client) Call(method, path string, queryParams url.Values, body, v interface{}) error {
+	//client := resty.New().R()
+	//client.URL, _ = c.baseURL.Parse("v1" + path)
 	var buf io.ReadWriter
-
 	if body != nil {
 		buf = new(bytes.Buffer)
 		err := json.NewEncoder(buf).Encode(body)
@@ -121,14 +122,15 @@ func (c *Client) Call(method, path string, queryParams url.Values, body, v inter
 
 	req, err := http.NewRequest(method, u.String(), buf)
 	log.Print(method, ": ", req.URL)
-
-	if err != nil {
-		return err
-	}
+	log.Println(req.Body)
 
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
 	}
+	if err != nil {
+		return err
+	}
+
 	resp, err := c.c.Do(req)
 	if err != nil {
 		return err
@@ -138,6 +140,7 @@ func (c *Client) Call(method, path string, queryParams url.Values, body, v inter
 		if err != nil {
 		}
 	}(resp.Body)
+
 	return c.decodeResponse(resp, v)
 }
 

@@ -1,6 +1,21 @@
 package models
 
 type GetMarketQuoteResponse struct {
+	Generic
+	Data struct {
+		Reference string `json:"reference"`
+		Source    struct {
+			Currency            string `json:"currency"`
+			Amount              int    `json:"amount"`
+			HumanReadableAmount int    `json:"human_readable_amount"`
+		} `json:"source"`
+		Target struct {
+			Currency            string `json:"currency"`
+			Amount              int    `json:"amount"`
+			HumanReadableAmount int    `json:"human_readable_amount"`
+		} `json:"target"`
+		Rate int `json:"rate"`
+	} `json:"data"`
 }
 type GetCurrenciesResponse struct {
 	Generic
