@@ -7,9 +7,9 @@ import (
 type BillsService service
 
 type BuyAirtimeRequest struct {
-	Phone_number string
-	Amount       int
-	Identifier   string
+	PhoneNumber string `json:"phone_number"`
+	Amount      int    `json:"amount"`
+	Identifier  string `json:"identifier"`
 }
 
 func (b *BillsService) BuyAirtime(body *BuyAirtimeRequest) (*models.BuyAirtimeResponse, error) {
@@ -19,8 +19,8 @@ func (b *BillsService) BuyAirtime(body *BuyAirtimeRequest) (*models.BuyAirtimeRe
 	return resp, err
 }
 
-func (b *BillsService) GetAirtimeBillers() (*models.GetAirtimeBillersResponse, error) {
-	u := "bills/airtime/billers/NG"
+func (b *BillsService) GetBillers() (*models.GetAirtimeBillersResponse, error) {
+	u := "/bills/airtime/billers/NG"
 	resp := &models.GetAirtimeBillersResponse{}
 	err := b.client.Call("POST", u, nil, nil, &resp)
 	return resp, err

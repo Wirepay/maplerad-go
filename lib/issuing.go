@@ -22,10 +22,10 @@ func (c *IssuingService) GetAllCards() (*models.GetAllCardsResponse, error) {
 }
 
 type CreateCardRequest struct {
-	CustomerId  string
-	Currency    string
-	Type        string
-	AutoApprove bool
+	CustomerId  string `json:"customer_id"`
+	Currency    string `json:"currency"`
+	Type        string `json:"type"`
+	AutoApprove bool   `json:"auto_approve"`
 }
 
 func (c *IssuingService) CreateCard(body *CreateCardRequest) (*models.CreateCardResponse, error) {
@@ -35,8 +35,8 @@ func (c *IssuingService) CreateCard(body *CreateCardRequest) (*models.CreateCard
 	return resp, err
 }
 
-func (c *IssuingService) GetCardTransactions(customer_id string) (*models.GetCardTransactionsResponse, error) {
-	u := fmt.Sprintf("/issuing/%s", customer_id)
+func (c *IssuingService) GetCardTransactions(customerId string) (*models.GetCardTransactionsResponse, error) {
+	u := fmt.Sprintf("/issuing/%s", customerId)
 	resp := &models.GetCardTransactionsResponse{}
 	err := c.client.Call("GET", u, nil, nil, &resp)
 	return resp, err
@@ -46,8 +46,8 @@ type CardRequest struct {
 	amount string
 }
 
-func (c *IssuingService) FundCard(card_id, amount string) (*models.Generic, error) {
-	u := fmt.Sprintf("/issuing/%s/fund", card_id)
+func (c *IssuingService) FundCard(cardId string, amount string) (*models.Generic, error) {
+	u := fmt.Sprintf("/issuing/%s/fund", cardId)
 	var body *CardRequest
 	body.amount = amount
 	resp := &models.Generic{}
@@ -55,8 +55,8 @@ func (c *IssuingService) FundCard(card_id, amount string) (*models.Generic, erro
 	return resp, err
 }
 
-func (c *IssuingService) DebitCard(card_id, amount string) (*models.Generic, error) {
-	u := fmt.Sprintf("/issuing/%s/debit", card_id)
+func (c *IssuingService) DebitCard(cardId string, amount string) (*models.Generic, error) {
+	u := fmt.Sprintf("/issuing/%s/debit", cardId)
 	var body *CardRequest
 	body.amount = amount
 	resp := &models.Generic{}
@@ -64,15 +64,15 @@ func (c *IssuingService) DebitCard(card_id, amount string) (*models.Generic, err
 	return resp, err
 }
 
-func (c *IssuingService) EnableCard(card_id string) (*models.Generic, error) {
-	u := fmt.Sprintf("/issuing/%s/enable", card_id)
+func (c *IssuingService) UnFreezeCard(cardId string) (*models.Generic, error) {
+	u := fmt.Sprintf("/issuing/%s/unfreeze", cardId)
 	resp := &models.Generic{}
 	err := c.client.Call("PATCH", u, nil, nil, &resp)
 	return resp, err
 }
 
-func (c *IssuingService) DisableCard(card_id string) (*models.Generic, error) {
-	u := fmt.Sprintf("/issuing/%s/disable", card_id)
+func (c *IssuingService) FreezeCard(cardId string) (*models.Generic, error) {
+	u := fmt.Sprintf("/issuing/%s/freeze", cardId)
 	resp := &models.Generic{}
 	err := c.client.Call("PATCH", u, nil, nil, &resp)
 	return resp, err

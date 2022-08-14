@@ -56,7 +56,7 @@ func (c *xAPIKeyAuthTransport) RoundTrip(r *http.Request) (*http.Response, error
 }
 
 // NewClient /* Environment is either live or sandbox */
-func NewClient(secret, environment string) (*Client, error) {
+func NewClient(secret string, environment string) (*Client, error) {
 	c := &Client{}
 
 	if IsStringEmpty(secret) {
@@ -92,7 +92,7 @@ func NewClient(secret, environment string) (*Client, error) {
 }
 
 // Call actually does the HTTP request to Maplerad API
-func (c *Client) Call(method, path string, queryParams url.Values, body, v interface{}) error {
+func (c *Client) Call(method string, path string, queryParams url.Values, body interface{}, v interface{}) error {
 	//client := resty.New().R()
 	//client.URL, _ = c.baseURL.Parse("v1" + path)
 	var buf io.ReadWriter
@@ -158,6 +158,5 @@ func (c *Client) decodeResponse(httpResp *http.Response, v interface{}) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }

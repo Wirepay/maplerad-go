@@ -8,19 +8,18 @@ import (
 
 type CustomerService service
 
-type CreateCustomerRequest struct {
-	FirstName   string `json:"first_name" binding:"required"`
-	LastName    string `json:"last_name" binding:"required"`
-	Email       string `json:"email" binding:"required"`
-	PhoneNumber string `json:"phone_number" binding:"required"`
-	Dob         string `json:"dob" binding:"required"`
-	Identity    struct {
-		Type    string `json:"type" binding:"required"`
-		Number  string `json:"number"`
-		Url     string `json:"url" binding:"required"`
-		Country string `json:"country" binding:"required"`
-	} `json:"identity" binding:"required"`
-	Address struct {
+type CreateCustomerRequestTier0 struct {
+	FirstName string `json:"first_name" binding:"required"`
+	LastName  string `json:"last_name" binding:"required"`
+	Email     string `json:"email" binding:"required"`
+	Country   string `json:"country" binding:"required"`
+}
+type CreateCustomerRequestTier1 struct {
+	CustomerId           string `json:"customer_id"`
+	PhoneNumber          string `json:"phone_number" binding:"required"`
+	Dob                  string `json:"dob" binding:"required"`
+	IdentificationNumber string `json:"identification_number"`
+	Address              struct {
 		Street     string `json:"street" binding:"required"`
 		Street2    string `json:"street2"`
 		City       string `json:"city" binding:"required"`
@@ -30,10 +29,34 @@ type CreateCustomerRequest struct {
 	} `json:"address" binding:"required"`
 }
 
-func (c *CustomerService) CreateCustomer(body *CreateCustomerRequest) (*models.CreateCustomerResponse, error) {
+type CreateCustomerRequestTier2 struct {
+	CustomerId string `json:"customer_id"`
+	Identity   struct {
+		Type    string `json:"type" binding:"required"`
+		Number  string `json:"number"`
+		Url     string `json:"url" binding:"required"`
+		Country string `json:"country" binding:"required"`
+	} `json:"identity" binding:"required"`
+}
+
+func (c *CustomerService) CreateCustomer(body *CreateCustomerRequestTier0) (*models.CreateCustomerResponse, error) {
 	u := "/customers"
 	resp := &models.CreateCustomerResponse{}
 	err := c.client.Call("POST", u, nil, body, &resp)
+	return resp, err
+}
+
+func (c *CustomerService) UpgradeCustomerTierOne(body *CreateCustomerRequestTier1) (*models.CreateCustomerResponse, error) {
+	u := "/customers/tier1"
+	resp := &models.CreateCustomerResponse{}
+	err := c.client.Call("PATCH", u, nil, body, &resp)
+	return resp, err
+}
+
+func (c *CustomerService) UpgradeCustomerTierTwo(body *CreateCustomerRequestTier2) (*models.CreateCustomerResponse, error) {
+	u := "/customers/tier2"
+	resp := &models.CreateCustomerResponse{}
+	err := c.client.Call("PATCH", u, nil, body, &resp)
 	return resp, err
 }
 
