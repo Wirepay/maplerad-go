@@ -1,6 +1,25 @@
 package models
 
-type CreateCustomerResponse struct {
+type CreateCustomerResponseTier0 struct {
+	Generic
+	Data struct {
+		ID        string `json:"id"`
+		FirstName string `json:"first_name"`
+		LastName  string `json:"last_name"`
+		Email     string `json:"email"`
+		Country   string `json:"country"`
+		Status    string `json:"status"`
+		Tier      int    `json:"tier"`
+		CreatedAt string `json:"created_at"`
+		UpdatedAt string `json:"updated_at"`
+	} `json:"data"`
+}
+
+type CreateCustomerResponseTier1 struct {
+	Generic
+}
+
+type CreateCustomerResponseTier2 struct {
 	Generic
 	Data struct {
 		Id     string `json:"id"`
@@ -11,16 +30,17 @@ type CreateCustomerResponse struct {
 type GetCustomerResponse struct {
 	Generic
 	Data struct {
-		Id           string `json:"id"`
-		First_name   string `json:"first_name"`
-		Last_name    string `json:"last_name"`
-		Middle_name  string `json:"middle_name"`
-		Email        string `json:"email"`
-		Phone_number string `json:"phone_number"`
-		Dob          string `json:"dob"`
-		Active       bool   `json:"active"`
-		Disabled     bool   `json:"disabled"`
-		Identity     struct {
+		Id          string `json:"id"`
+		FirstName   string `json:"first_name"`
+		LastName    string `json:"last_name"`
+		MiddleName  string `json:"middle_name"`
+		Email       string `json:"email"`
+		PhoneNumber string `json:"phone_number"`
+		Dob         string `json:"dob"`
+		Active      bool   `json:"active"`
+		Type        string `json:"type"`
+		Disabled    bool   `json:"disabled"`
+		Identity    struct {
 			Type    string `json:"type"`
 			Number  string `json:"number"`
 			Image   string `json:"image"`
@@ -28,42 +48,45 @@ type GetCustomerResponse struct {
 		} `json:"identity"`
 	}
 	Address struct {
-		Street      string `json:"street"`
-		Street2     string `json:"street2"`
-		City        string `json:"city"`
-		State       string `json:"state"`
-		Country     string `json:"country"`
-		Postal_code string `json:"postal_code"`
+		Street     string `json:"street"`
+		Street2    string `json:"street2"`
+		City       string `json:"city"`
+		State      string `json:"state"`
+		Country    string `json:"country"`
+		PostalCode string `json:"postal_code"`
 	} `json:"address"`
+	Status string `json:"status"`
 }
 
 type GetCustomersResponse struct {
 	Generic
 	Data []struct {
-		Id           string `json:"id"`
-		First_name   string `json:"first_name"`
-		Last_name    string `json:"last_name"`
-		Middle_name  string `json:"middle_name"`
-		Email        string `json:"email"`
-		Phone_number string `json:"phone_number"`
-		Dob          string `json:"dob"`
-		Active       bool   `json:"active"`
-		Disabled     bool   `json:"disabled"`
-		Identity     struct {
-			Type    string `json:"type"`
-			Number  string `json:"number"`
-			Image   string `json:"image"`
-			Country string `json:"country"`
+		ID          string      `json:"id"`
+		FirstName   string      `json:"first_name"`
+		LastName    string      `json:"last_name"`
+		MiddleName  interface{} `json:"middle_name"`
+		Email       string      `json:"email"`
+		PhoneNumber string      `json:"phone_number"`
+		Dob         string      `json:"dob"`
+		Type        string      `json:"type"`
+		Active      bool        `json:"active"`
+		Disabled    bool        `json:"disabled"`
+		Identity    struct {
+			Type    string      `json:"type"`
+			Number  string      `json:"number"`
+			Image   interface{} `json:"image"`
+			Country string      `json:"country"`
 		} `json:"identity"`
+		Address struct {
+			Street     string      `json:"street"`
+			Street2    interface{} `json:"street2"`
+			City       string      `json:"city"`
+			State      string      `json:"state"`
+			PostalCode string      `json:"postal_code"`
+			Country    string      `json:"country"`
+		} `json:"address"`
+		Status string `json:"status"`
 	} `json:"data"`
-	Address struct {
-		Street      string `json:"street"`
-		Street2     string `json:"street2"`
-		City        string `json:"city"`
-		State       string `json:"state"`
-		Country     string `json:"country"`
-		Postal_code string `json:"postal_code"`
-	} `json:"address"`
 }
 
 type GetCustomerAccountResponse struct {
