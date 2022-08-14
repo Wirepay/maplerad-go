@@ -37,8 +37,9 @@ type Client struct {
 	Transfer     *TransferService
 	Issuing      *IssuingService
 	Transaction  *TransactionsService
+	Fx           *FxService
 	Misc         *MiscService
-	Wallet       *WalletService
+	Wallets      *WalletService
 	Counterparty *CounterpartyService
 }
 
@@ -74,8 +75,9 @@ func NewClient(secret string, environment string) (*Client, error) {
 	c.Collections = (*CollectionsService)(&c.common)
 	c.Transfer = (*TransferService)(&c.common)
 	c.Issuing = (*IssuingService)(&c.common)
+	c.Fx = (*FxService)(&c.common)
 	c.Misc = (*MiscService)(&c.common)
-	c.Wallet = (*WalletService)(&c.common)
+	c.Wallets = (*WalletService)(&c.common)
 	c.Counterparty = (*CounterpartyService)(&c.common)
 	c.Transaction = (*TransactionsService)(&c.common)
 
@@ -93,8 +95,6 @@ func NewClient(secret string, environment string) (*Client, error) {
 
 // Call actually does the HTTP request to Maplerad API
 func (c *Client) Call(method string, path string, queryParams url.Values, body interface{}, v interface{}) error {
-	//client := resty.New().R()
-	//client.URL, _ = c.baseURL.Parse("v1" + path)
 	var buf io.ReadWriter
 	if body != nil {
 		buf = new(bytes.Buffer)
@@ -122,7 +122,6 @@ func (c *Client) Call(method string, path string, queryParams url.Values, body i
 
 	req, err := http.NewRequest(method, u.String(), buf)
 	log.Print(method, ": ", req.URL)
-	log.Println(req.Body)
 
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")

@@ -41,21 +41,21 @@ type CreateCustomerRequestTier2 struct {
 
 func (c *CustomerService) CreateCustomer(body *CreateCustomerRequestTier0) (*models.CreateCustomerResponseTier0, error) {
 	u := "/customers"
-	resp := &models.CreateCustomerResponse{}
+	resp := &models.CreateCustomerResponseTier0{}
 	err := c.client.Call("POST", u, nil, body, &resp)
 	return resp, err
 }
 
 func (c *CustomerService) UpgradeCustomerTierOne(body *CreateCustomerRequestTier1) (*models.CreateCustomerResponseTier1, error) {
 	u := "/customers/tier1"
-	resp := &models.CreateCustomerResponse{}
+	resp := &models.CreateCustomerResponseTier1{}
 	err := c.client.Call("PATCH", u, nil, body, &resp)
 	return resp, err
 }
 
-func (c *CustomerService) UpgradeCustomerTierTwo(body *CreateCustomerRequestTier2) (*models.CreateCustomerResponseTier, error) {
+func (c *CustomerService) UpgradeCustomerTierTwo(body *CreateCustomerRequestTier2) (*models.CreateCustomerResponseTier2, error) {
 	u := "/customers/tier2"
-	resp := &models.CreateCustomerResponse{}
+	resp := &models.CreateCustomerResponseTier2{}
 	err := c.client.Call("PATCH", u, nil, body, &resp)
 	return resp, err
 }

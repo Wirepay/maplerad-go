@@ -13,7 +13,7 @@ There are currently eleven (11) base categories namely:
  * Issuing
  * Transactions
  * Counterparty
- * Forex
+ * Fx (Forex)
  * Institutions
  * Misc
 
