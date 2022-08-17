@@ -15,7 +15,7 @@ type CreateCustomerRequestTier0 struct {
 	Country   string `json:"country" binding:"required"`
 }
 type CreateCustomerRequestTier1 struct {
-	CustomerId           string `json:"customer_id"`
+	CustomerId           string `json:"customer_id" binding:"required"`
 	PhoneNumber          string `json:"phone_number" binding:"required"`
 	Dob                  string `json:"dob" binding:"required"`
 	IdentificationNumber string `json:"identification_number"`
@@ -30,10 +30,10 @@ type CreateCustomerRequestTier1 struct {
 }
 
 type CreateCustomerRequestTier2 struct {
-	CustomerId string `json:"customer_id"`
+	CustomerId string `json:"customer_id" binding:"required"`
 	Identity   struct {
 		Type    string `json:"type" binding:"required"`
-		Number  string `json:"number"`
+		Number  string `json:"number" binding:"required"`
 		Url     string `json:"url" binding:"required"`
 		Country string `json:"country" binding:"required"`
 	} `json:"identity" binding:"required"`
@@ -47,14 +47,14 @@ func (c *CustomerService) CreateCustomer(body *CreateCustomerRequestTier0) (*mod
 }
 
 func (c *CustomerService) UpgradeCustomerTierOne(body *CreateCustomerRequestTier1) (*models.CreateCustomerResponseTier1, error) {
-	u := "/customers/tier1"
+	u := "/customers/upgrade/tier1"
 	resp := &models.CreateCustomerResponseTier1{}
 	err := c.client.Call("PATCH", u, nil, body, &resp)
 	return resp, err
 }
 
 func (c *CustomerService) UpgradeCustomerTierTwo(body *CreateCustomerRequestTier2) (*models.CreateCustomerResponseTier2, error) {
-	u := "/customers/tier2"
+	u := "/customers/upgrade/tier2"
 	resp := &models.CreateCustomerResponseTier2{}
 	err := c.client.Call("PATCH", u, nil, body, &resp)
 	return resp, err

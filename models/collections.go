@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type CreateAccountResponse struct {
 	Generic
 	Data struct {
@@ -13,4 +15,23 @@ type CreateAccountResponse struct {
 }
 
 type DirectDebitResponse struct {
+	Generic
+	Data struct {
+		ID        string    `json:"id"`
+		Link      string    `json:"link"`
+		Reference string    `json:"reference"`
+		CreatedAt time.Time `json:"created_at"`
+		UpdatedAt time.Time `json:"updated_at"`
+	} `json:"data"`
+}
+
+type MomoResponse struct {
+	Generic
+	Data struct {
+		ID        string    `json:"id"`
+		Link      string    `json:"link"`
+		Reference string    `json:"reference"`
+		CreatedAt time.Time `json:"created_at"`
+		UpdatedAt time.Time `json:"updated_at"`
+	} `json:"data"`
 }
