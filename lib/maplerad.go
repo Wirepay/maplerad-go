@@ -116,9 +116,8 @@ func (c *Client) Call(method string, path string, queryParams url.Values, body i
 		}
 	}
 
-	/* TODO*/
 	// Encode the parameters.
-	// u.RawQuery() = query.Encode()
+	u.RawQuery = query.Encode()
 
 	req, err := http.NewRequest(method, u.String(), buf)
 	log.Print(method, ": ", req.URL)
