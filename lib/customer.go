@@ -8,6 +8,32 @@ import (
 
 type CustomerService service
 
+type FullEnrollRequest struct {
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Email     string `json:"email"`
+	Phone     struct {
+		PhoneCountryCode string `json:"phone_country_code"`
+		PhoneNumber      string `json:"phone_number"`
+	} `json:"phone"`
+	Dob                  string `json:"dob"`
+	IdentificationNumber string `json:"identification_number"`
+	Address              struct {
+		Street     string  `json:"street"`
+		Street2    *string `json:"street2"`
+		City       string  `json:"city"`
+		State      string  `json:"state"`
+		Country    string  `json:"country"`
+		PostalCode string  `json:"postal_code"`
+	} `json:"address"`
+	Identity struct {
+		Country string `json:"country"`
+		Image   string `json:"image"`
+		Number  string `json:"number"`
+		Type    string `json:"type"`
+	} `json:"identity"`
+}
+
 type CreateCustomerRequestTier0 struct {
 	FirstName string `json:"first_name" binding:"required"`
 	LastName  string `json:"last_name" binding:"required"`
@@ -15,8 +41,11 @@ type CreateCustomerRequestTier0 struct {
 	Country   string `json:"country" binding:"required"`
 }
 type CreateCustomerRequestTier1 struct {
-	CustomerId           string `json:"customer_id" binding:"required"`
-	PhoneNumber          string `json:"phone_number" binding:"required"`
+	CustomerId string `json:"customer_id" binding:"required"`
+	Phone      struct {
+		PhoneCountryCode string `json:"phone_country_code"`
+		PhoneNumber      string `json:"phone_number"`
+	} `json:"phone"`
 	Dob                  string `json:"dob" binding:"required"`
 	IdentificationNumber string `json:"identification_number"`
 	Address              struct {
@@ -33,10 +62,17 @@ type CreateCustomerRequestTier2 struct {
 	CustomerId string `json:"customer_id" binding:"required"`
 	Identity   struct {
 		Type    string `json:"type" binding:"required"`
-		Number  string `json:"number" binding:"required"`
+		Image   string `json:"image" binding:"required"`
 		Url     string `json:"url" binding:"required"`
 		Country string `json:"country" binding:"required"`
 	} `json:"identity" binding:"required"`
+}
+
+func (c *CustomerService) FullEnrollCustomer(body *FullEnrollRequest) (*models.FullEnrollResponse, error) {
+	u := "/customers/enroll"
+	resp := &models.FullEnrollResponse{}
+	err := c.client.Call("POST", u, nil, body, &resp)
+	return resp, err
 }
 
 func (c *CustomerService) CreateCustomer(body *CreateCustomerRequestTier0) (*models.CreateCustomerResponseTier0, error) {

@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type CreateCustomerResponseTier0 struct {
 	Generic
 	Data struct {
@@ -101,6 +103,20 @@ type GetCustomerAccountResponse struct {
 	} `json:"data"`
 }
 
+type FullEnrollResponse struct {
+	Generic
+	Data struct {
+		ID        string    `json:"id"`
+		FirstName string    `json:"first_name"`
+		LastName  string    `json:"last_name"`
+		Email     string    `json:"email"`
+		Country   string    `json:"country"`
+		Status    string    `json:"status"`
+		Tier      int       `json:"tier"`
+		CreatedAt time.Time `json:"created_at"`
+		UpdatedAt time.Time `json:"updated_at"`
+	} `json:"data"`
+}
 type GetCustomerCardsResponse struct {
 }
 
