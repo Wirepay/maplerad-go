@@ -35,8 +35,8 @@ func (c *IssuingService) CreateCard(body *CreateCardRequest) (*models.CreateCard
 	return resp, err
 }
 
-func (c *IssuingService) GetCardTransactions(customerId string) (*models.GetCardTransactionsResponse, error) {
-	u := fmt.Sprintf("/issuing/%s", customerId)
+func (c *IssuingService) GetCardTransactions(cardId string) (*models.GetCardTransactionsResponse, error) {
+	u := fmt.Sprintf("/issuing/%s", cardId)
 	resp := &models.GetCardTransactionsResponse{}
 	err := c.client.Call("GET", u, nil, nil, &resp)
 	return resp, err
