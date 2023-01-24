@@ -12,3 +12,10 @@ func (c *MiscService) GetCurrencies() (*models.GetCurrenciesResponse, error) {
 	err := c.client.Call("GET", u, nil, nil, &resp)
 	return resp, err
 }
+
+func (c *MiscService) GetCountries() (*models.GetCountriesResponse, error) {
+	u := "/countries"
+	resp := &models.GetCountriesResponse{}
+	err := c.client.Call("GET", u, nil, nil, &resp)
+	return resp, err
+}
