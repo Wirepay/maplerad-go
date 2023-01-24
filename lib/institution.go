@@ -11,11 +11,11 @@ func (c *InstitutionService) GetInstitutions() (*models.GetInstitutionsResponse,
 	return resp, err
 }
 
-func (c *InstitutionService) ResolveInstitution(account_number, bank_code string) (*models.ResolveInstitutionsResponse, error) {
+func (c *InstitutionService) ResolveInstitution(accountNumber, bankCode string) (*models.ResolveInstitutionsResponse, error) {
 	u := "/institutions/resolve"
 	var body map[string]string
-	body["account_number"] = account_number
-	body["bank_code"] = bank_code
+	body["account_number"] = accountNumber
+	body["bank_code"] = bankCode
 	resp := &models.ResolveInstitutionsResponse{}
 	err := c.client.Call("POST", u, nil, body, &resp)
 	return resp, err

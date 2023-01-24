@@ -15,8 +15,17 @@ type GetCardResponse struct {
 	} `json:"data"`
 }
 
-type  GetCardTransactionsResponse struct{
-
+type GetCardTransactionsResponse struct {
+	Generic
+	Data []struct {
+		ID          string `json:"id"`
+		Amount      int    `json:"amount"`
+		Currency    string `json:"currency"`
+		Description string `json:"description"`
+		Status      string `json:"status"`
+		CreatedAt   string `json:"created_at"`
+	} `json:"data"`
+	Meta
 }
 
 type GetAllCardsResponse []struct {

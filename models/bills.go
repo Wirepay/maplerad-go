@@ -5,6 +5,12 @@ type Generic struct {
 	Message string `json:"message"`
 }
 
+type Meta struct {
+	Page     int `json:"page"`
+	PageSize int `json:"page_size"`
+	Total    int `json:"total"`
+}
+
 type BuyAirtimeResponse struct {
 	Generic
 	Data struct {

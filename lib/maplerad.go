@@ -15,8 +15,8 @@ import (
 )
 
 const (
-	SandboxUrl = "https://sandbox.api.maplerad.com"
-	LiveUrl    = "https://api.maplerad.com"
+	sandboxUrl = "https://sandbox.api.maplerad.com"
+	liveUrl    = "https://api.maplerad.com"
 )
 
 type service struct {
@@ -36,6 +36,7 @@ type Client struct {
 	Collections  *CollectionsService
 	Transfer     *TransferService
 	Issuing      *IssuingService
+	Identity     *IdentityService
 	Transaction  *TransactionsService
 	Fx           *FxService
 	Misc         *MiscService
@@ -65,9 +66,9 @@ func NewClient(secret string, environment string) (*Client, error) {
 	}
 	c.secret = secret
 	if environment == "live" {
-		c.baseURL, _ = url.Parse(LiveUrl)
+		c.baseURL, _ = url.Parse(liveUrl)
 	}
-	c.baseURL, _ = url.Parse(SandboxUrl)
+	c.baseURL, _ = url.Parse(sandboxUrl)
 	c.common.client = c
 
 	c.Customer = (*CustomerService)(&c.common)
@@ -75,6 +76,7 @@ func NewClient(secret string, environment string) (*Client, error) {
 	c.Collections = (*CollectionsService)(&c.common)
 	c.Transfer = (*TransferService)(&c.common)
 	c.Issuing = (*IssuingService)(&c.common)
+	c.Identity = (*IdentityService)(&c.common)
 	c.Fx = (*FxService)(&c.common)
 	c.Misc = (*MiscService)(&c.common)
 	c.Wallets = (*WalletService)(&c.common)
@@ -134,7 +136,7 @@ func (c *Client) Call(method string, path string, queryParams url.Values, body i
 		return err
 	}
 	defer func(Body io.ReadCloser) {
-		err := Body.Close()
+		err = Body.Close()
 		if err != nil {
 		}
 	}(resp.Body)
@@ -157,4 +159,11 @@ func (c *Client) decodeResponse(httpResp *http.Response, v interface{}) error {
 		return err
 	}
 	return nil
+}
+
+type QueryParams struct {
+	Page      string
+	PageSize  string
+	StartDate string
+	EndDate   string
 }

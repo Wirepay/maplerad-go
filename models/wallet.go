@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type GetWalletsResponse struct {
 	Generic
 	Data []struct {
@@ -30,28 +32,35 @@ type GetWalletByCurrencyResponse struct {
 
 type GetWalletHistoryResponse struct {
 	Generic
-	TransactionId        string      `json:"transaction_id"`
-	RelatedTransactionId interface{} `json:"related_transaction_id"`
-	WalletId             string      `json:"wallet_id"`
-	Debit                int         `json:"debit"`
-	Credit               int         `json:"credit"`
-	PreviousBalance      int         `json:"previous_balance"`
-	CurrentBalance       int         `json:"current_balance"`
-	BalanceType          string      `json:"balance_type"`
-	Reversal             bool        `json:"reversal"`
-}
-
-type GetWalletHistoryByCurrencyResponse struct {
-	Generic
 	Data []struct {
-		TransactionId        string      `json:"transaction_id"`
-		RelatedTransactionId interface{} `json:"related_transaction_id"`
-		WalletId             string      `json:"wallet_id"`
+		TransactionID        string      `json:"transaction_id"`
+		RelatedTransactionID interface{} `json:"related_transaction_id"`
+		WalletID             string      `json:"wallet_id"`
 		Debit                int         `json:"debit"`
 		Credit               int         `json:"credit"`
 		PreviousBalance      int         `json:"previous_balance"`
 		CurrentBalance       int         `json:"current_balance"`
 		BalanceType          string      `json:"balance_type"`
 		Reversal             bool        `json:"reversal"`
+		Transaction          interface{} `json:"transaction"`
+		CreatedAt            time.Time   `json:"created_at"`
+		UpdatedAt            time.Time   `json:"updated_at"`
+	}
+}
+
+type GetWalletHistoryByCurrencyResponse struct {
+	Generic
+	Data []struct {
+		TransactionID        string      `json:"transaction_id"`
+		RelatedTransactionID interface{} `json:"related_transaction_id"`
+		WalletID             string      `json:"wallet_id"`
+		Debit                int         `json:"debit"`
+		Credit               int         `json:"credit"`
+		PreviousBalance      int         `json:"previous_balance"`
+		CurrentBalance       int         `json:"current_balance"`
+		BalanceType          string      `json:"balance_type"`
+		Reversal             bool        `json:"reversal"`
+		CreatedAt            time.Time   `json:"created_at"`
+		UpdatedAt            time.Time   `json:"updated_at"`
 	} `json:"data"`
 }

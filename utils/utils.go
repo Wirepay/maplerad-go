@@ -8,13 +8,13 @@ import (
 	"net/url"
 )
 
-// Convert string or interface{} to JSON
+// PrettyPrint Convert string or interface{} to JSON
 func PrettyPrint(i interface{}) string {
 	s, _ := json.MarshalIndent(i, "", "\t")
 	return string(s)
 }
 
-// APIError includes the response from the Mono API and some HTTP request info
+// APIError includes the response from the Maplerad API and some HTTP request info
 type APIError struct {
 	Message        string        `json:"message,omitempty"`
 	HTTPStatusCode int           `json:"code,omitempty"`
@@ -24,16 +24,16 @@ type APIError struct {
 }
 
 // APIError supports the error interface
-func (aerr *APIError) Error() string {
-	ret, _ := json.Marshal(aerr)
+func (err *APIError) Error() string {
+	ret, _ := json.Marshal(err)
 	return string(ret)
 }
 
 // ErrorResponse represents an error response from the Maplerad API server
 type ErrorResponse struct {
-	Status  bool                   `json:"status,omitempty"`
-	Message string                 `json:"message,omitempty"`
-	Errors  map[string]interface{} `json:"errors,omitempty"`
+	Status  bool   `json:"status,omitempty"`
+	Message string `json:"message,omitempty"`
+	//Errors  map[string]interface{} `json:"errors,omitempty"`
 }
 
 func NewAPIError(resp *http.Response) *APIError {
@@ -43,10 +43,10 @@ func NewAPIError(resp *http.Response) *APIError {
 	_ = json.Unmarshal(p, &mapleradErrorResp)
 	return &APIError{
 		HTTPStatusCode: resp.StatusCode,
-		Header:         resp.Header,
 		Details:        mapleradErrorResp,
-		URL:            resp.Request.URL,
+		Header:         resp.Header,
 	}
+
 }
 
 func mapstruct(data interface{}, v interface{}) error {
