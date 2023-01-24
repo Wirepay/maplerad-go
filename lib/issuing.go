@@ -7,8 +7,8 @@ import (
 
 type IssuingService service
 
-func (c *IssuingService) GetCard(customerId string) (*models.GetCardResponse, error) {
-	u := fmt.Sprintf("/issuing/%s", customerId)
+func (c *IssuingService) GetCard(cardId string) (*models.GetCardResponse, error) {
+	u := fmt.Sprintf("/issuing/%s", cardId)
 	resp := &models.GetCardResponse{}
 	err := c.client.Call("GET", u, nil, nil, &resp)
 	return resp, err
@@ -36,7 +36,7 @@ func (c *IssuingService) CreateCard(body *CreateCardRequest) (*models.CreateCard
 }
 
 func (c *IssuingService) GetCardTransactions(cardId string) (*models.GetCardTransactionsResponse, error) {
-	u := fmt.Sprintf("/issuing/%s", cardId)
+	u := fmt.Sprintf("/issuing/%s/transactions", cardId)
 	resp := &models.GetCardTransactionsResponse{}
 	err := c.client.Call("GET", u, nil, nil, &resp)
 	return resp, err

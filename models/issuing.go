@@ -25,7 +25,7 @@ type GetCardTransactionsResponse struct {
 		Status      string `json:"status"`
 		CreatedAt   string `json:"created_at"`
 	} `json:"data"`
-	Meta
+	Meta `json:"meta"`
 }
 
 type GetAllCardsResponse []struct {
