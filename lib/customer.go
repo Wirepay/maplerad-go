@@ -81,7 +81,11 @@ type CustomerUpdateRequest struct {
 	LastName   string `json:"last_name"`
 	MiddleName string `json:"middle_name"`
 	Photo      string `json:"photo"`
-	Identity   struct {
+	Phone      struct {
+		PhoneCountryCode string `json:"phone_country_code"`
+		PhoneNumber      string `json:"phone_number"`
+	} `json:"phone"`
+	Identity struct {
 		Type    string `json:"type"`
 		Image   string `json:"image"`
 		Url     string `json:"url"`
