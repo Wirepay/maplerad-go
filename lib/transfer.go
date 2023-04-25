@@ -3,6 +3,7 @@ package maplerad
 import (
 	"fmt"
 	"github.com/wirepay/maplerad-go/models"
+	"github.com/wirepay/maplerad-go/utils"
 )
 
 type TransferService service
@@ -11,7 +12,7 @@ type BankTransferRequest struct {
 	bankCode      string
 	amount        string
 	accountNumber string
-	currency      string
+	currency      utils.CurrencySymbol
 }
 
 func (c *TransferService) NigerianBankTransfer(body *BankTransferRequest) (*models.NigerianBankTransferResponse, error) {
@@ -27,7 +28,7 @@ type USDRequest struct {
 	AccountNumber string
 	Amount        int
 	Reason        string
-	Currency      string
+	Currency      utils.CurrencySymbol
 	Reference     string
 	Meta          struct {
 		Scheme string
@@ -71,10 +72,3 @@ func (c *TransferService) GetTransfer(transferId string) (*models.GetTransferRes
 	err := c.client.Call("GET", u, nil, nil, &resp)
 	return resp, err
 }
-
-// func (c *TransferService) GetTransferTransactions() (*models.GetTransferResponse, error) {
-// 	u := "/transactions"
-// 	resp := &models.GetTransferResponse{}
-// 	err := c.client.Call("GET", u, nil, nil, &resp)
-// 	return resp, err
-// }

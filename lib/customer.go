@@ -2,6 +2,7 @@ package maplerad
 
 import (
 	"fmt"
+	"github.com/wirepay/maplerad-go/utils"
 
 	"github.com/wirepay/maplerad-go/models"
 )
@@ -40,6 +41,7 @@ type CreateCustomerRequestTier0 struct {
 	Email     string `json:"email" binding:"required"`
 	Country   string `json:"country" binding:"required"`
 }
+
 type CreateCustomerRequestTier1 struct {
 	CustomerId string `json:"customer_id" binding:"required"`
 	Phone      struct {
@@ -66,6 +68,25 @@ type CreateCustomerRequestTier2 struct {
 		Url     string `json:"url" binding:"required"`
 		Country string `json:"country" binding:"required"`
 	} `json:"identity" binding:"required"`
+}
+
+type CardEnrollRequest struct {
+	CustomerId string          `json:"customer_id"`
+	Brand      utils.CardBrand `json:"brand"`
+}
+
+type CustomerUpdateRequest struct {
+	CustomerId string `json:"customer_id"`
+	FirstName  string `json:"first_name"`
+	LastName   string `json:"last_name"`
+	MiddleName string `json:"middle_name"`
+	Photo      string `json:"photo"`
+	Identity   struct {
+		Type    string `json:"type"`
+		Image   string `json:"image"`
+		Url     string `json:"url"`
+		Country string `json:"country"`
+	} `json:"identity"`
 }
 
 func (c *CustomerService) FullEnrollCustomer(body *FullEnrollRequest) (*models.FullEnrollResponse, error) {
@@ -111,7 +132,14 @@ func (c *CustomerService) GetAllCustomers() (*models.GetCustomersResponse, error
 }
 
 func (c *CustomerService) GetCustomerAccount(customerId string) (*models.GetCustomerAccountResponse, error) {
-	u := fmt.Sprintf("/customers/%s/account", customerId)
+	u := fmt.Sprintf("/customers/%s/accounts", customerId)
+	resp := &models.GetCustomerAccountResponse{}
+	err := c.client.Call("POST", u, nil, nil, &resp)
+	return resp, err
+}
+
+func (c *CustomerService) GetCustomerVirtualAccounts(customerId string) (*models.GetCustomerAccountResponse, error) {
+	u := fmt.Sprintf("/customers/%s/virtual-account", customerId)
 	resp := &models.GetCustomerAccountResponse{}
 	err := c.client.Call("POST", u, nil, nil, &resp)
 	return resp, err
@@ -128,5 +156,23 @@ func (c *CustomerService) GetCustomerTransactions(customerId string) (*models.Ge
 	u := fmt.Sprintf("/customers/%s/transactions", customerId)
 	resp := &models.GetCustomerTransactionsResponse{}
 	err := c.client.Call("POST", u, nil, nil, &resp)
+	return resp, err
+}
+
+func (c *CustomerService) CustomerCardEnroll(customerId string, brand utils.CardBrand) (*models.CardEnrollResponse, error) {
+	u := "/customers/card-enroll"
+	body := CardEnrollRequest{
+		CustomerId: customerId,
+		Brand:      brand,
+	}
+	resp := &models.CardEnrollResponse{}
+	err := c.client.Call("PATCH", u, nil, body, &resp)
+	return resp, err
+}
+
+func (c *CustomerService) UpdateCustomer(body *CustomerUpdateRequest) (*models.Generic, error) {
+	u := "/customers/update"
+	resp := &models.Generic{}
+	err := c.client.Call("PATCH", u, nil, body, &resp)
 	return resp, err
 }

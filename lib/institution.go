@@ -11,11 +11,17 @@ func (c *InstitutionService) GetInstitutions() (*models.GetInstitutionsResponse,
 	return resp, err
 }
 
+type resolveInstitution struct {
+	AccountNumber string `json:"account_number"`
+	BankCode      string `json:"bank_code"`
+}
+
 func (c *InstitutionService) ResolveInstitution(accountNumber, bankCode string) (*models.ResolveInstitutionsResponse, error) {
 	u := "/institutions/resolve"
-	var body map[string]string
-	body["account_number"] = accountNumber
-	body["bank_code"] = bankCode
+	body := resolveInstitution{
+		AccountNumber: accountNumber,
+		BankCode:      bankCode,
+	}
 	resp := &models.ResolveInstitutionsResponse{}
 	err := c.client.Call("POST", u, nil, body, &resp)
 	return resp, err

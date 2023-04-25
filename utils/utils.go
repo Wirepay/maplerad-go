@@ -8,6 +8,17 @@ import (
 	"net/url"
 )
 
+type CurrencySymbol string
+type CardBrand string
+
+const (
+	USD CurrencySymbol = "USD"
+	NGN CurrencySymbol = "NGN"
+
+	VISA       CardBrand = "VISA"
+	MASTERCARD CardBrand = "MASTERCARD"
+)
+
 // PrettyPrint Convert string or interface{} to JSON
 func PrettyPrint(i interface{}) string {
 	s, _ := json.MarshalIndent(i, "", "\t")

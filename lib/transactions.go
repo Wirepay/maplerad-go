@@ -7,9 +7,9 @@ import (
 
 type TransactionsService service
 
-func (c *TransactionsService) GetAllTransactions() (Response, error) {
+func (c *TransactionsService) GetAllTransactions() (*models.GetAllTransactionsResponse, error) {
 	u := "/transactions"
-	resp := Response{}
+	resp := &models.GetAllTransactionsResponse{}
 	err := c.client.Call("GET", u, nil, nil, &resp)
 	return resp, err
 }

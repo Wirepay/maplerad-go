@@ -112,8 +112,8 @@ func (c *Client) Call(method string, path string, queryParams url.Values, body i
 
 	// Adding Query Param
 	query := u.Query()
-	for k, v := range queryParams {
-		for _, iv := range v {
+	for k, w := range queryParams {
+		for _, iv := range w {
 			query.Add(k, iv)
 		}
 	}

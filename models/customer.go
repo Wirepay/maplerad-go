@@ -122,3 +122,7 @@ type GetCustomerCardsResponse struct {
 
 type GetCustomerTransactionsResponse struct {
 }
+
+type CardEnrollResponse struct {
+	Generic
+}

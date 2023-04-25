@@ -18,7 +18,6 @@ func (c *WalletService) GetWallets() (*models.GetWalletsResponse, error) {
 // GetWalletByCurrency CurrencyCode is either NGN,USD etc
 func (c *WalletService) GetWalletByCurrency(currencyCode string) (*models.GetWalletByCurrencyResponse, error) {
 	u := fmt.Sprintf("/wallets/%s", currencyCode)
-
 	resp := &models.GetWalletByCurrencyResponse{}
 	err := c.client.Call("GET", u, nil, nil, &resp)
 	return resp, err
@@ -40,7 +39,6 @@ func (c *WalletService) GetWalletHistory(query *QueryParams) (*models.GetWalletH
 	if query.EndDate != "" {
 		q.Add("end_date", query.EndDate)
 	}
-
 	err := c.client.Call("GET", u, q, nil, &resp)
 	return resp, err
 }
@@ -63,7 +61,6 @@ func (c *WalletService) GetWalletHistoryByCurrency(currencyCode string, query *Q
 	if query.EndDate != "" {
 		q.Add("end_date", query.EndDate)
 	}
-
 	err := c.client.Call("GET", u, q, nil, &resp)
 	return resp, err
 }

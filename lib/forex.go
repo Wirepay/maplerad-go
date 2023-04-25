@@ -19,9 +19,9 @@ func (c *FxService) GetMarketQuote(body *GetMarketQuoteRequest) (*models.GetMark
 	return resp, err
 }
 
-func (c *FxService) ExchangeCurrency(quoteReference string) (Response, error) {
+func (c *FxService) ExchangeCurrency(quoteReference string) (*models.Generic, error) {
 	u := "/fx"
-	resp := Response{}
+	resp := &models.Generic{}
 	err := c.client.Call("POST", u, nil, quoteReference, &resp)
 	return resp, err
 }

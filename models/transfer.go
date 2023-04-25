@@ -26,9 +26,12 @@ type NigerianBankTransferResponse struct {
 }
 
 type USDCashPickUpResponse struct {
+	Generic
 }
 
-type USDDOMResponse struct{}
+type USDDOMResponse struct {
+	Generic
+}
 
 type GetTransferResponse struct {
 	Generic
