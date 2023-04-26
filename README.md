@@ -4,13 +4,14 @@
 
 The library follows an object-oriented approach and methods are grouped under categories.
 
-There are currently eleven (11) base categories namely:
+There are currently twelve (12) base categories namely:
  * Customer
  * Collections
  * Transfer
  * Bills
  * Wallets
  * Issuing
+ * Identity
  * Transactions
  * Counterparty
  * Fx (Forex)

@@ -37,6 +37,7 @@ type Client struct {
 	Transfer     *TransferService
 	Issuing      *IssuingService
 	Identity     *IdentityService
+	Institutions *InstitutionService
 	Transaction  *TransactionsService
 	Fx           *FxService
 	Misc         *MiscService
@@ -77,6 +78,7 @@ func NewClient(secret string, environment string) (*Client, error) {
 	c.Transfer = (*TransferService)(&c.common)
 	c.Issuing = (*IssuingService)(&c.common)
 	c.Identity = (*IdentityService)(&c.common)
+	c.Institutions = (*InstitutionService)(&c.common)
 	c.Fx = (*FxService)(&c.common)
 	c.Misc = (*MiscService)(&c.common)
 	c.Wallets = (*WalletService)(&c.common)
