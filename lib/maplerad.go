@@ -6,7 +6,6 @@ import (
 	"errors"
 	"github.com/wirepay/maplerad-go/utils"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -155,7 +154,7 @@ func (c *Client) decodeResponse(httpResp *http.Response, v interface{}) error {
 	if httpResp.StatusCode >= 400 {
 		return utils.NewAPIError(httpResp)
 	}
-	respBody, err := ioutil.ReadAll(httpResp.Body)
+	respBody, err := io.ReadAll(httpResp.Body)
 	err = json.Unmarshal(respBody, &v)
 	if err != nil {
 		return err

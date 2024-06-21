@@ -9,15 +9,15 @@ import (
 type TransferService service
 
 type BankTransferRequest struct {
-	bankCode      string
-	amount        string
-	accountNumber string
-	currency      utils.CurrencySymbol
+	BankCode      string
+	Amount        string
+	AccountNumber string
+	Currency      utils.CurrencySymbol
 }
 
 func (c *TransferService) NigerianBankTransfer(body *BankTransferRequest) (*models.NigerianBankTransferResponse, error) {
 	u := "/transfers"
-	body.currency = "NGN"
+	body.Currency = "NGN"
 	resp := &models.NigerianBankTransferResponse{}
 	err := c.client.Call("POST", u, nil, body, &resp)
 	return resp, err

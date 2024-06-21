@@ -3,7 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"github.com/mitchellh/mapstructure"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 )
@@ -48,7 +48,7 @@ type ErrorResponse struct {
 }
 
 func NewAPIError(resp *http.Response) *APIError {
-	p, _ := ioutil.ReadAll(resp.Body)
+	p, _ := io.ReadAll(resp.Body)
 
 	var mapleradErrorResp ErrorResponse
 	_ = json.Unmarshal(p, &mapleradErrorResp)
